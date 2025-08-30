@@ -1,13 +1,18 @@
 function hitHealthCheck() {
-  fetch("https://portfolio-server-40hp.onrender.com/api/health")
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Health check successful:", data);
-    })
-    .catch((error) => {
-      console.log("Error with health check:", error);
-    });
+  const url = "https://portfolio-server-40hp.onrender.com/api/health";
+
+  // Call the health check API 3 times
+  for (let i = 0; i < 3; i++) {
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(`Health check ${i + 1} successful:`, data);
+      })
+      .catch((error) => {
+        console.log(`Error with health check ${i + 1}:`, error);
+      });
+  }
 }
 
-// Hit the health check API every 15 minutes (900,000 ms)
-setInterval(hitHealthCheck, 895000); // 15 minutes
+// Run the function when the page loads
+window.addEventListener("load", hitHealthCheck);
