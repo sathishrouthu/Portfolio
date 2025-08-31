@@ -7,7 +7,7 @@ class WeatherApp {
     constructor() {
         // API Configuration
         this.apiKey = '7088b49e476f445a991154027253108';
-        this.baseUrl = 'http://api.weatherapi.com/v1';
+        this.baseUrl = 'https://api.weatherapi.com/v1';
         
         // App State
         this.currentLocation = null;
