@@ -1,4 +1,4 @@
-function hitHealthCheck() {
+function pingServer() {
   const url = "https://portfolio-server-40hp.onrender.com/api/health";
 
   // Call the health check API 3 times
@@ -14,5 +14,4 @@ function hitHealthCheck() {
   }
 }
 
-// Run the function when the page loads
-window.addEventListener("load", hitHealthCheck);
+// Run the function when the page load
