@@ -14,4 +14,7 @@ function pingServer() {
   }
 }
 
+window.addEventListener("load", pingServer);
+
+
 // Run the function when the page load
