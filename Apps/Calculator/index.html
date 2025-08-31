@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Calculator - Sathish Routhu</title>
+    
+    <!-- Bootstrap CSS (matching your portfolio) -->
+    <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="index.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="../../index.html">
+                <i class="bi bi-arrow-left me-2"></i>
+                Back to Portfolio
+            </a>
+            <span class="navbar-text">
+                <i class="bi bi-calculator me-2"></i>
+                Advanced Calculator
+            </span>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-md-12">
+                <!-- Header Section -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body text-center">
+                        <h1 class="card-title mb-3">
+                            <i class="bi bi-calculator-fill text-primary me-2"></i>
+                            Advanced Calculator
+                        </h1>
+                        <p class="card-text text-muted">Scientific calculator with advanced functions</p>
+                    </div>
+                </div>
+
+                <!-- Calculator Container -->
+                <div class="row">
+                    <!-- Calculator Display and Keypad -->
+                    <div class="col-lg-8 col-md-12 mb-4">
+                        <div class="card calculator-card shadow-lg">
+                            <!-- Display Section -->
+                            <div class="calculator-display">
+                                <div class="memory-indicator">
+                                    <span id="memoryIndicator" class="d-none">M</span>
+                                </div>
+                                <div class="expression-display">
+                                    <div id="expressionDisplay" class="expression">0</div>
+                                </div>
+                                <div class="result-display">
+                                    <div id="resultDisplay" class="result">0</div>
+                                </div>
+                                <div class="calculator-info">
+                                    <span id="angleMode" class="angle-mode">DEG</span>
+                                    <span id="calculatorMode" class="calculator-mode">STANDARD</span>
+                                </div>
+                            </div>
+
+                            <!-- Mode Toggle -->
+                            <div class="mode-toggle">
+                                <div class="btn-group w-100" role="group">
+                                    <button type="button" class="btn btn-outline-primary active" id="standardMode">
+                                        <i class="bi bi-calculator me-1"></i>Standard
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary" id="scientificMode">
+                                        <i class="bi bi-mortarboard me-1"></i>Scientific
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary" id="programmerMode">
+                                        <i class="bi bi-code me-1"></i>Programmer
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Calculator Keypad -->
+                            <div class="calculator-keypad">
+                                <!-- Memory and Clear Row -->
+                                <div class="keypad-row">
+                                    <button class="btn calc-btn memory-btn" data-action="mc" title="Memory Clear">
+                                        <span class="btn-text">MC</span>
+                                    </button>
+                                    <button class="btn calc-btn memory-btn" data-action="mr" title="Memory Recall">
+                                        <span class="btn-text">MR</span>
+                                    </button>
+                                    <button class="btn calc-btn memory-btn" data-action="mplus" title="Memory Add">
+                                        <span class="btn-text">M+</span>
+                                    </button>
+                                    <button class="btn calc-btn memory-btn" data-action="mminus" title="Memory Subtract">
+                                        <span class="btn-text">M-</span>
+                                    </button>
+                                    <button class="btn calc-btn memory-btn" data-action="ms" title="Memory Store">
+                                        <span class="btn-text">MS</span>
+                                    </button>
+                                </div>
+
+                                <!-- Scientific Functions Row 1 (Hidden by default) -->
+                                <div class="keypad-row scientific-row d-none">
+                                    <button class="btn calc-btn function-btn" data-action="sin" title="Sine">
+                                        <span class="btn-text">sin</span>
+                                    </button>
+                                    <button class="btn calc-btn function-btn" data-action="cos" title="Cosine">
+                                        <span class="btn-text">cos</span>
+                                    </button>
+                                    <button class="btn calc-btn function-btn" data-action="tan" title="Tangent">
+                                        <span class="btn-text">tan</span>
+                                    </button>
+                                    <button class="btn calc-btn function-btn" data-action="ln" title="Natural Log">
+                                        <span class="btn-text">ln</span>
+                                    </button>
+                                    <button class="btn calc-btn function-btn" data-action="log" title="Log Base 10">
+                                        <span class="btn-text">log</span>
+                                    </button>
+                                </div>
+
+                                <!-- Scientific Functions Row 2 (Hidden by default) -->
+                                <div class="keypad-row scientific-row d-none">
+                                    <button class="btn calc-btn function-btn" data-action="asin" title="Arc Sine">
+                                        <span class="btn-text">sin⁻¹</span>
+                                    </button>
+                                    <button class="btn calc-btn function-btn" data-action="acos" title="Arc Cosine">
+                                        <span class="btn-text">cos⁻¹</span>
+                                    </button>
+                                    <button class="btn calc-btn function-btn" data-action="atan" title="Arc Tangent">
+                                        <span class="btn-text">tan⁻¹</span>
+                                    </button>
+                                    <button class="btn calc-btn function-btn" data-action="exp" title="Exponential">
+                                        <span class="btn-text">eˣ</span>
+                                    </button>
+                                    <button class="btn calc-btn function-btn" data-action="pow" title="Power">
+                                        <span class="btn-text">xʸ</span>
+                                    </button>
+                                </div>
+
+                                <!-- Programmer Functions Row (Hidden by default) -->
+                                <div class="keypad-row programmer-row d-none">
+                                    <button class="btn calc-btn base-btn" data-action="hex" title="Hexadecimal">
+                                        <span class="btn-text">HEX</span>
+                                    </button>
+                                    <button class="btn calc-btn base-btn" data-action="dec" title="Decimal">
+                                        <span class="btn-text">DEC</span>
+                                    </button>
+                                    <button class="btn calc-btn base-btn" data-action="oct" title="Octal">
+                                        <span class="btn-text">OCT</span>
+                                    </button>
+                                    <button class="btn calc-btn base-btn" data-action="bin" title="Binary">
+                                        <span class="btn-text">BIN</span>
+                                    </button>
+                                    <button class="btn calc-btn function-btn" data-action="not" title="Bitwise NOT">
+                                        <span class="btn-text">NOT</span>
+                                    </button>
+                                </div>
+
+                                <!-- Function Row -->
+                                <div class="keypad-row">
+                                    <button class="btn calc-btn function-btn" data-action="percent" title="Percentage">
+                                        <span class="btn-text">%</span>
+                                    </button>
+                                    <button class="btn calc-btn clear-btn" data-action="ce" title="Clear Entry">
+                                        <span class="btn-text">CE</span>
+                                    </button>
+                                    <button class="btn calc-btn clear-btn" data-action="clear" title="Clear All">
+                                        <span class="btn-text">C</span>
+                                    </button>
+                                    <button class="btn calc-btn function-btn" data-action="backspace" title="Backspace">
+                                        <i class="bi bi-backspace"></i>
+                                    </button>
+                                    <button class="btn calc-btn function-btn" data-action="sqrt" title="Square Root">
+                                        <span class="btn-text">√</span>
+                                    </button>
+                                </div>
+
+                                <!-- Number Row 1 -->
+                                <div class="keypad-row">
+                                    <button class="btn calc-btn function-btn" data-action="reciprocal" title="1/x">
+                                        <span class="btn-text">1/x</span>
+                                    </button>
+                                    <button class="btn calc-btn function-btn" data-action="square" title="Square">
+                                        <span class="btn-text">x²</span>
+                                    </button>
+                                    <button class="btn calc-btn function-btn" data-action="cube" title="Cube">
+                                        <span class="btn-text">x³</span>
+                                    </button>
+                                    <button class="btn calc-btn operator-btn" data-action="divide" title="Divide">
+                                        <span class="btn-text">÷</span>
+                                    </button>
+                                    <button class="btn calc-btn function-btn" data-action="factorial" title="Factorial">
+                                        <span class="btn-text">n!</span>
+                                    </button>
+                                </div>
+
+                                <!-- Number Row 2 -->
+                                <div class="keypad-row">
+                                    <button class="btn calc-btn number-btn" data-number="7">
+                                        <span class="btn-text">7</span>
+                                    </button>
+                                    <button class="btn calc-btn number-btn" data-number="8">
+                                        <span class="btn-text">8</span>
+                                    </button>
+                                    <button class="btn calc-btn number-btn" data-number="9">
+                                        <span class="btn-text">9</span>
+                                    </button>
+                                    <button class="btn calc-btn operator-btn" data-action="multiply" title="Multiply">
+                                        <span class="btn-text">×</span>
+                                    </button>
+                                    <button class="btn calc-btn function-btn" data-action="pi" title="Pi">
+                                        <span class="btn-text">π</span>
+                                    </button>
+                                </div>
+
+                                <!-- Number Row 3 -->
+                                <div class="keypad-row">
+                                    <button class="btn calc-btn number-btn" data-number="4">
+                                        <span class="btn-text">4</span>
+                                    </button>
+                                    <button class="btn calc-btn number-btn" data-number="5">
+                                        <span class="btn-text">5</span>
+                                    </button>
+                                    <button class="btn calc-btn number-btn" data-number="6">
+                                        <span class="btn-text">6</span>
+                                    </button>
+                                    <button class="btn calc-btn operator-btn" data-action="subtract" title="Subtract">
+                                        <span class="btn-text">-</span>
+                                    </button>
+                                    <button class="btn calc-btn function-btn" data-action="e" title="Euler's Number">
+                                        <span class="btn-text">e</span>
+                                    </button>
+                                </div>
+
+                                <!-- Number Row 4 -->
+                                <div class="keypad-row">
+                                    <button class="btn calc-btn number-btn" data-number="1">
+                                        <span class="btn-text">1</span>
+                                    </button>
+                                    <button class="btn calc-btn number-btn" data-number="2">
+                                        <span class="btn-text">2</span>
+                                    </button>
+                                    <button class="btn calc-btn number-btn" data-number="3">
+                                        <span class="btn-text">3</span>
+                                    </button>
+                                    <button class="btn calc-btn operator-btn" data-action="add" title="Add">
+                                        <span class="btn-text">+</span>
+                                    </button>
+                                    <button class="btn calc-btn function-btn" data-action="random" title="Random Number">
+                                        <span class="btn-text">Rand</span>
+                                    </button>
+                                </div>
+
+                                <!-- Bottom Row -->
+                                <div class="keypad-row">
+                                    <button class="btn calc-btn function-btn" data-action="negate" title="Toggle Sign">
+                                        <span class="btn-text">±</span>
+                                    </button>
+                                    <button class="btn calc-btn number-btn" data-number="0">
+                                        <span class="btn-text">0</span>
+                                    </button>
+                                    <button class="btn calc-btn function-btn" data-action="decimal" title="Decimal Point">
+                                        <span class="btn-text">.</span>
+                                    </button>
+                                    <button class="btn calc-btn equals-btn" data-action="equals" title="Equals">
+                                        <span class="btn-text">=</span>
+                                    </button>
+                                    <button class="btn calc-btn function-btn" data-action="deg-rad" title="Degree/Radian Toggle">
+                                        <span class="btn-text">°/rad</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- History and Additional Features -->
+                    <div class="col-lg-4 col-md-12">
+                        <!-- Calculator History -->
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">
+                                    <i class="bi bi-clock-history me-2"></i>
+                                    History
+                                </h5>
+                                <button type="button" class="btn btn-sm btn-outline-danger" id="clearHistory">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                            <div class="card-body p-0">
+                                <div id="calculatorHistory" class="calculator-history">
+                                    <div class="empty-history text-center py-4">
+                                        <i class="bi bi-clock text-muted" style="font-size: 2rem;"></i>
+                                        <p class="text-muted mt-2">No calculations yet</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Base Conversions (for programmer mode) -->
+                        <div class="card shadow-sm mb-4 d-none" id="baseConversions">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="bi bi-arrow-left-right me-2"></i>
+                                    Base Conversions
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="base-conversion">
+                                    <label class="form-label">Hexadecimal</label>
+                                    <input type="text" class="form-control" id="hexValue" readonly>
+                                </div>
+                                <div class="base-conversion">
+                                    <label class="form-label">Decimal</label>
+                                    <input type="text" class="form-control" id="decValue" readonly>
+                                </div>
+                                <div class="base-conversion">
+                                    <label class="form-label">Octal</label>
+                                    <input type="text" class="form-control" id="octValue" readonly>
+                                </div>
+                                <div class="base-conversion">
+                                    <label class="form-label">Binary</label>
+                                    <input type="text" class="form-control" id="binValue" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Functions -->
+                        <div class="card shadow-sm">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="bi bi-lightning me-2"></i>
+                                    Quick Functions
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <button class="btn btn-outline-primary btn-sm w-100" data-action="abs">
+                                            |x| Absolute
+                                        </button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button class="btn btn-outline-primary btn-sm w-100" data-action="floor">
+                                            ⌊x⌋ Floor
+                                        </button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button class="btn btn-outline-primary btn-sm w-100" data-action="ceil">
+                                            ⌈x⌉ Ceil
+                                        </button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button class="btn btn-outline-primary btn-sm w-100" data-action="round">
+                                            Round
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Keyboard Shortcuts Info -->
+                        <div class="card shadow-sm mt-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="bi bi-keyboard me-2"></i>
+                                    Keyboard Shortcuts
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <small class="text-muted">
+                                    <div class="mb-1"><kbd>0-9</kbd> Numbers</div>
+                                    <div class="mb-1"><kbd>+ - * /</kbd> Operations</div>
+                                    <div class="mb-1"><kbd>Enter</kbd> or <kbd>=</kbd> Calculate</div>
+                                    <div class="mb-1"><kbd>Escape</kbd> or <kbd>c</kbd> Clear</div>
+                                    <div class="mb-1"><kbd>Backspace</kbd> Delete</div>
+                                    <div class="mb-1"><kbd>.</kbd> Decimal point</div>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0 text-muted">
+                <i class="bi bi-heart-fill text-danger me-1"></i>
+                Made with love by Sathish Routhu
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>

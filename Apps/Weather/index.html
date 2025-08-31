@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast - Sathish Routhu</title>
+    
+    <!-- Bootstrap CSS (matching your portfolio) -->
+    <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="index.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="../../index.html">
+                <i class="bi bi-arrow-left me-2"></i>
+                Back to Portfolio
+            </a>
+            <span class="navbar-text">
+                <i class="bi bi-cloud-sun me-2"></i>
+                Weather Forecast
+            </span>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container-fluid mt-4">
+        <!-- Search Section -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-lg-8 col-md-10">
+                <div class="card search-card shadow-lg">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">
+                            <i class="bi bi-geo-alt-fill text-primary me-2"></i>
+                            Weather Dashboard
+                        </h2>
+                        <div class="search-container">
+                            <div class="input-group">
+                                <input type="text" class="form-control search-input" 
+                                       id="locationInput" 
+                                       placeholder="Enter city name (e.g., London, New York)"
+                                       autocomplete="off">
+                                <button class="btn btn-primary search-btn" type="button" id="searchBtn">
+                                    <i class="bi bi-search me-2"></i>Search
+                                </button>
+                                <button class="btn btn-outline-secondary location-btn" type="button" id="locationBtn" title="Use Current Location">
+                                    <i class="bi bi-geo-alt"></i>
+                                </button>
+                            </div>
+                            <!-- Search Suggestions -->
+                            <div id="searchSuggestions" class="search-suggestions d-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="text-center py-5 d-none">
+            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3 text-muted">Fetching weather data...</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" class="row justify-content-center d-none">
+            <div class="col-lg-6">
+                <div class="alert alert-danger text-center">
+                    <i class="bi bi-exclamation-triangle fs-1 mb-3"></i>
+                    <h4>Weather data not available</h4>
+                    <p id="errorMessage">Please check your location and try again.</p>
+                    <button class="btn btn-outline-danger" onclick="location.reload()">
+                        <i class="bi bi-arrow-clockwise me-2"></i>Try Again
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weather Content -->
+        <div id="weatherContent" class="d-none">
+            <!-- Current Weather Section -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10">
+                    <div class="card current-weather-card shadow-lg">
+                        <div class="card-body p-4">
+                            <div class="row align-items-center">
+                                <!-- Location and Time -->
+                                <div class="col-lg-6 col-md-12 mb-3 mb-lg-0">
+                                    <h3 class="location-name mb-2">
+                                        <i class="bi bi-geo-alt-fill me-2"></i>
+                                        <span id="currentLocation">--</span>
+                                    </h3>
+                                    <p class="location-details text-muted mb-2">
+                                        <span id="currentCountry">--</span>
+                                    </p>
+                                    <p class="current-time">
+                                        <i class="bi bi-clock me-2"></i>
+                                        <span id="currentTime">--</span>
+                                    </p>
+                                    <p class="last-updated text-muted">
+                                        Last updated: <span id="lastUpdated">--</span>
+                                    </p>
+                                </div>
+
+                                <!-- Weather Icon and Temperature -->
+                                <div class="col-lg-6 col-md-12 text-lg-end text-center">
+                                    <div class="current-weather-main">
+                                        <img id="currentWeatherIcon" src="" alt="Weather" class="weather-icon-large mb-2">
+                                        <h1 class="current-temp mb-2">
+                                            <span id="currentTemp">--</span>°C
+                                        </h1>
+                                        <h4 class="weather-condition mb-3">
+                                            <span id="currentCondition">--</span>
+                                        </h4>
+                                        <p class="feels-like text-muted">
+                                            Feels like <span id="feelsLike">--</span>°C
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weather Details Grid -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10">
+                    <div class="row g-3">
+                        <!-- Humidity -->
+                        <div class="col-lg-2 col-md-4 col-6">
+                            <div class="card weather-detail-card h-100">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-droplet-half weather-detail-icon"></i>
+                                    <h6 class="weather-detail-label">Humidity</h6>
+                                    <p class="weather-detail-value" id="humidity">--%</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Wind -->
+                        <div class="col-lg-2 col-md-4 col-6">
+                            <div class="card weather-detail-card h-100">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-wind weather-detail-icon"></i>
+                                    <h6 class="weather-detail-label">Wind</h6>
+                                    <p class="weather-detail-value" id="windSpeed">-- km/h</p>
+                                    <p class="weather-detail-sub" id="windDirection">--</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pressure -->
+                        <div class="col-lg-2 col-md-4 col-6">
+                            <div class="card weather-detail-card h-100">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-speedometer2 weather-detail-icon"></i>
+                                    <h6 class="weather-detail-label">Pressure</h6>
+                                    <p class="weather-detail-value" id="pressure">-- mb</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Visibility -->
+                        <div class="col-lg-2 col-md-4 col-6">
+                            <div class="card weather-detail-card h-100">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-eye weather-detail-icon"></i>
+                                    <h6 class="weather-detail-label">Visibility</h6>
+                                    <p class="weather-detail-value" id="visibility">-- km</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- UV Index -->
+                        <div class="col-lg-2 col-md-4 col-6">
+                            <div class="card weather-detail-card h-100">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-sun weather-detail-icon"></i>
+                                    <h6 class="weather-detail-label">UV Index</h6>
+                                    <p class="weather-detail-value" id="uvIndex">--</p>
+                                    <p class="weather-detail-sub" id="uvCategory">--</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Air Quality -->
+                        <div class="col-lg-2 col-md-4 col-6">
+                            <div class="card weather-detail-card h-100">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-lungs weather-detail-icon"></i>
+                                    <h6 class="weather-detail-label">Air Quality</h6>
+                                    <p class="weather-detail-value" id="airQuality">--</p>
+                                    <p class="weather-detail-sub" id="airQualityLevel">--</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hourly Forecast Section -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10">
+                    <div class="card hourly-forecast-card shadow-lg">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="bi bi-clock-history me-2"></i>
+                                24-Hour Forecast
+                            </h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="hourly-forecast-container">
+                                <div id="hourlyForecast" class="hourly-forecast-scroll">
+                                    <!-- Hourly forecast items will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weekly Forecast Section -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10">
+                    <div class="card weekly-forecast-card shadow-lg">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="bi bi-calendar-week me-2"></i>
+                                7-Day Forecast
+                            </h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div id="weeklyForecast">
+                                <!-- Weekly forecast items will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Astronomy Section -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10">
+                    <div class="card astronomy-card shadow-lg">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="bi bi-moon-stars me-2"></i>
+                                Astronomy
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- Sun Times -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="astronomy-section">
+                                        <h6 class="astronomy-title">
+                                            <i class="bi bi-brightness-high text-warning me-2"></i>
+                                            Sun Times
+                                        </h6>
+                                        <div class="astronomy-details">
+                                            <div class="astronomy-item">
+                                                <span class="astronomy-label">Sunrise</span>
+                                                <span class="astronomy-value" id="sunrise">--</span>
+                                            </div>
+                                            <div class="astronomy-item">
+                                                <span class="astronomy-label">Sunset</span>
+                                                <span class="astronomy-value" id="sunset">--</span>
+                                            </div>
+                                            <div class="astronomy-item">
+                                                <span class="astronomy-label">Daylight Duration</span>
+                                                <span class="astronomy-value" id="daylightHours">--</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Moon Times -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="astronomy-section">
+                                        <h6 class="astronomy-title">
+                                            <i class="bi bi-moon text-info me-2"></i>
+                                            Moon Times
+                                        </h6>
+                                        <div class="astronomy-details">
+                                            <div class="astronomy-item">
+                                                <span class="astronomy-label">Moonrise</span>
+                                                <span class="astronomy-value" id="moonrise">--</span>
+                                            </div>
+                                            <div class="astronomy-item">
+                                                <span class="astronomy-label">Moonset</span>
+                                                <span class="astronomy-value" id="moonset">--</span>
+                                            </div>
+                                            <div class="astronomy-item">
+                                                <span class="astronomy-label">Moon Phase</span>
+                                                <span class="astronomy-value" id="moonPhase">--</span>
+                                            </div>
+                                            <div class="astronomy-item">
+                                                <span class="astronomy-label">Moon Illumination</span>
+                                                <span class="astronomy-value" id="moonIllumination">--%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weather Alerts (if any) -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10">
+                    <div id="weatherAlertsCard" class="card weather-alerts-card shadow-lg d-none">
+                        <div class="card-header bg-warning">
+                            <h5 class="mb-0 text-dark">
+                                <i class="bi bi-exclamation-triangle me-2"></i>
+                                Weather Alerts
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="weatherAlerts">
+                                <!-- Weather alerts will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-2 text-muted">
+                <i class="bi bi-cloud-sun me-2"></i>
+                Weather data provided by WeatherAPI.com
+            </p>
+            <p class="mb-0 text-muted">
+                <i class="bi bi-heart-fill text-danger me-1"></i>
+                Made with love by Sathish Routhu
+            </p>
+        </div>
+    </footer>
+
+    <!-- Recent Searches Modal -->
+    <div class="modal fade" id="recentSearchesModal" tabindex="-1" aria-labelledby="recentSearchesModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recentSearchesModalLabel">
+                        <i class="bi bi-clock-history me-2"></i>
+                        Recent Searches
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="recentSearchesList">
+                        <!-- Recent searches will be populated here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" id="clearRecentSearches">
+                        <i class="bi bi-trash me-2"></i>Clear All
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="config.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>

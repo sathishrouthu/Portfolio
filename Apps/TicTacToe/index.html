@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe - Interactive Game</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-brand">
+                <h1><i class="fas fa-gamepad"></i> Tic Tac Toe</h1>
+            </div>
+            <nav class="nav-menu">
+                <a href="../../index.html" class="nav-link">
+                    <i class="fas fa-home"></i> Back to Portfolio
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Game Title Section -->
+            <section class="hero-section">
+                <div class="hero-content">
+                    <h2 class="hero-title">
+                        <i class="fas fa-trophy"></i>
+                        Ultimate Tic Tac Toe
+                    </h2>
+                    <p class="hero-subtitle">Challenge your friend to a classic game of strategy and fun!</p>
+                </div>
+            </section>
+
+            <!-- Player Setup Section -->
+            <section class="setup-section" id="setupSection">
+                <div class="setup-card">
+                    <h3 class="setup-title">
+                        <i class="fas fa-users"></i>
+                        Player Setup
+                    </h3>
+                    <div class="players-form">
+                        <div class="player-input-group">
+                            <label for="player1Name" class="input-label">
+                                <i class="fas fa-user player-x-icon"></i>
+                                Player 1 (X)
+                            </label>
+                            <input 
+                                type="text" 
+                                id="player1Name" 
+                                class="player-input" 
+                                placeholder="Enter Player 1 name"
+                                maxlength="20"
+                                required
+                            >
+                        </div>
+                        <div class="vs-divider">
+                            <span class="vs-text">VS</span>
+                        </div>
+                        <div class="player-input-group">
+                            <label for="player2Name" class="input-label">
+                                <i class="fas fa-user player-o-icon"></i>
+                                Player 2 (O)
+                            </label>
+                            <input 
+                                type="text" 
+                                id="player2Name" 
+                                class="player-input" 
+                                placeholder="Enter Player 2 name"
+                                maxlength="20"
+                                required
+                            >
+                        </div>
+                    </div>
+                    <button class="start-game-btn" id="startGameBtn">
+                        <i class="fas fa-play"></i>
+                        Start Game
+                    </button>
+                </div>
+            </section>
+
+            <!-- Game Section -->
+            <section class="game-section" id="gameSection" style="display: none;">
+                <!-- Game Info -->
+                <div class="game-info">
+                    <div class="current-player">
+                        <span class="current-player-text">Current Turn:</span>
+                        <span class="current-player-name" id="currentPlayerName">Player 1</span>
+                        <span class="current-player-symbol" id="currentPlayerSymbol">X</span>
+                    </div>
+                    <div class="score-board">
+                        <div class="score-item">
+                            <span class="score-label" id="player1ScoreLabel">Player 1</span>
+                            <span class="score-value" id="player1Score">0</span>
+                        </div>
+                        <div class="score-divider">:</div>
+                        <div class="score-item">
+                            <span class="score-label" id="player2ScoreLabel">Player 2</span>
+                            <span class="score-value" id="player2Score">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Board -->
+                <div class="game-board-container">
+                    <div class="game-board" id="gameBoard">
+                        <div class="game-cell" data-index="0"></div>
+                        <div class="game-cell" data-index="1"></div>
+                        <div class="game-cell" data-index="2"></div>
+                        <div class="game-cell" data-index="3"></div>
+                        <div class="game-cell" data-index="4"></div>
+                        <div class="game-cell" data-index="5"></div>
+                        <div class="game-cell" data-index="6"></div>
+                        <div class="game-cell" data-index="7"></div>
+                        <div class="game-cell" data-index="8"></div>
+                    </div>
+                </div>
+
+                <!-- Game Controls -->
+                <div class="game-controls">
+                    <button class="control-btn reset-btn" id="resetGameBtn">
+                        <i class="fas fa-redo"></i>
+                        Reset Game
+                    </button>
+                    <button class="control-btn new-players-btn" id="newPlayersBtn">
+                        <i class="fas fa-user-friends"></i>
+                        New Players
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Winner Modal -->
+    <div class="modal-overlay" id="winnerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="winner-icon" id="winnerIcon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+            </div>
+            <div class="modal-body">
+                <h3 class="modal-title" id="modalTitle">Congratulations!</h3>
+                <p class="modal-message" id="modalMessage">Player 1 wins!</p>
+                <div class="confetti-container" id="confettiContainer"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn play-again-btn" id="playAgainBtn">
+                    <i class="fas fa-play"></i>
+                    Play Again
+                </button>
+                <button class="modal-btn close-modal-btn" id="closeModalBtn">
+                    <i class="fas fa-times"></i>
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Tic Tac Toe Game. Part of Sathish's Portfolio.</p>
+                <div class="footer-links">
+                    <a href="../index.html" class="footer-link">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Portfolio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <i class="fas fa-gamepad spinning"></i>
+            <p>Loading Game...</p>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
