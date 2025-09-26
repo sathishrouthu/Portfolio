@@ -38,7 +38,7 @@ document
     document.querySelector(".loading").style.display = "block";
 
     // Send data to Flask API via fetch (AJAX)
-    fetch("https://portfolio-server-40hp.onrender.com/api/mail/send", {
+    fetch("https://portfolio-app-rdij.onrender.com/api/mail/send", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
