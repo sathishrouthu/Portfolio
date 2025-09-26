@@ -5,7 +5,7 @@
 
 class TodoApiService {
     constructor() {
-        this.baseURL = 'https://portfolio-server-40hp.onrender.com/api'; // Adjust this to match your backend URL
+        this.baseURL = 'https://portfolio-app-rdij.onrender.com/api'; // Adjust this to match your backend URL
         this.todos = []; // Local cache
         this.isOnline = navigator.onLine;
         
